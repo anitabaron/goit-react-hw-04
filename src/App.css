@@ -61,6 +61,22 @@ li {
 .photoGallery {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   /* display: grid; */
   gap: 20px;
+}
+
+img {
+  cursor: pointer;
+}
+
+.photoContainer:hover {
+  border: 1px solid red;
+}
+
+.photoContainer {
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
+  overflow: hidden;
 }

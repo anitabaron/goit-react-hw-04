@@ -1,4 +1,8 @@
-export default function SearchBar({ handleSubmit }) {
+export default function SearchBar({
+  handleSubmit,
+  keyWordToSearch,
+  getPhotos,
+}) {
   return (
     <div>
       <header className="headerLine">
