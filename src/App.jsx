@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from "react";
+import "./App.css";
+import ErrorMessage from "./components/ErrorMessage";
+import Loader from "./components/Loader";
+import LoadMoreBtn from "./components/LoadMoreBtn";
+import PhotoModal from "./components/PhotoModal";
+import PhotosGallery from "./components/PhotosGallery";
+import SearchBar from "./components/SearchBar";
+import fetchPhotos from "./api/fetchPhotos";
+import { useGetPhotos } from "./hooks/useGetPhotos";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { isLoading, error, photosList, getPhotos } = useGetPhotos();
+  console.log(photosList); //pusta tablica, dlaczego?
+
+  const handleSubmit = () => {};
+
+  //to useEffect chyba tu wogóle nie działa
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorMessage />;
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SearchBar handleSubmit={handleSubmit} getPhotos={getPhotos} />
+      <PhotosGallery photos={photosList} />
+      <Loader />
+      <ErrorMessage />
+      <LoadMoreBtn />
+      <PhotoModal />
+      <p>App</p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
