@@ -7,7 +7,7 @@ const fetchPhotos = async () => {
   const response = await axios.get(axios.defaults.baseURL);
   console.log(response.data); //to działa i pokazuje tablicę 10 obiektów
   console.log(response.data[0]);
-  console.log(response.data[0].id);
+  console.log(response.data[0].urls);
 
   return response.data;
 };

@@ -53,3 +53,14 @@
   padding: 10px;
   margin: 20px;
 }
+
+li {
+  list-style: none;
+}
+
+.photoGallery {
+  display: flex;
+  flex-wrap: wrap;
+  /* display: grid; */
+  gap: 20px;
+}

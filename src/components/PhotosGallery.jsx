@@ -1,13 +1,17 @@
 import PhotoCard from "./PhotoCard";
 
 export default function ImageGallery({ photos }) {
-  console.log(photos); //pusta tablica, dlaczego?
-
+  console.log(photos);
   return (
-    <div>
+    <ul className="photoGallery">
       {photos.map((photo) => (
-        <PhotoCard key={photo.id} src={photo.links} alt={photo.first_name} />
+        <PhotoCard
+          key={photo.id}
+          photo={photo}
+          src={photo.links}
+          alt={photo.first_name}
+        />
       ))}
-    </div>
+    </ul>
   );
 }

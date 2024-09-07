@@ -6,7 +6,6 @@ import LoadMoreBtn from "./components/LoadMoreBtn";
 import PhotoModal from "./components/PhotoModal";
 import PhotosGallery from "./components/PhotosGallery";
 import SearchBar from "./components/SearchBar";
-import fetchPhotos from "./api/fetchPhotos";
 import { useGetPhotos } from "./hooks/useGetPhotos";
 
 function App() {
@@ -15,9 +14,8 @@ function App() {
 
   const handleSubmit = () => {};
 
-  //to useEffect chyba tu wogóle nie działa
   useEffect(() => {
-    fetchPhotos();
+    getPhotos();
   }, []);
 
   if (isLoading) {

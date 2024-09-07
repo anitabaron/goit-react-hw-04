@@ -8,9 +8,9 @@ export const useGetPhotos = () => {
 
   const getPhotos = async () => {
     try {
-      setIsLoading(true);
       const photos = await fetchPhotos();
       setPhotosList(photos);
+      setIsLoading(true);
     } catch (error) {
       setError(error);
     } finally {
