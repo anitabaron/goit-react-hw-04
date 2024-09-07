@@ -12,18 +12,22 @@ import ToggleModal from "./components/ToggleModal";
 function App() {
   const { isLoading, error, photosList, getPhotos } = useGetPhotos();
   const [keyWord, setKeyWord] = useState("");
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    getPhotos();
-  }, []);
+    if (keyWord) {
+      getPhotos(keyWord);
+    } else {
+      getPhotos();
+    }
+  }, [keyWord]);
 
-  const handleSubmit = (evt) => {
-    setKeyWord(evt.target.value);
-
-    // if (keyWordToSearch === "") {
-    //   return <p>konieczność wprowadzenia tekstu w celu wyszukania obrazów</p>;
-    // }
+  const handleSearchSubmit = (query) => {
+    console.log("Search query:", query);
+    setKeyWord(query);
+    // dalsze kroki z API ??
   };
+
   const keyWordToSearch = keyWord.toLowerCase();
 
   if (isLoading) {
@@ -36,18 +40,13 @@ function App() {
 
   return (
     <>
-      <SearchBar
-        handleSubmit={handleSubmit}
-        getPhotos={getPhotos}
-        keyWordToSearch={keyWordToSearch}
-      />
+      <SearchBar onSubmit={handleSearchSubmit} />
       <PhotosGallery photos={photosList} />
       <Loader />
       <ErrorMessage />
       <LoadMoreBtn />
       <PhotoModal photos={photosList} getPhotos={getPhotos} />
       <ToggleModal />
-      <p>App</p>
     </>
   );
 }

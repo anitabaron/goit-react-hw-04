@@ -4,13 +4,13 @@ import fetchPhotos from "../api/fetchPhotos";
 export const useGetPhotos = () => {
   const [photosList, setPhotosList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const getPhotos = async () => {
+  const getPhotos = async (query) => {
+    setIsLoading(true);
     try {
-      const photos = await fetchPhotos();
+      const photos = await fetchPhotos(query);
       setPhotosList(photos);
-      setIsLoading(true);
     } catch (error) {
       setError(error);
     } finally {
