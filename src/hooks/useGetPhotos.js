@@ -6,11 +6,15 @@ export const useGetPhotos = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getPhotos = async (query) => {
+  const getPhotos = async (query = "", page = 1) => {
     setIsLoading(true);
     try {
-      const photos = await fetchPhotos(query);
-      setPhotosList(photos);
+      const newPhotos = await fetchPhotos(query, page);
+      if (page === 1) {
+        setPhotosList(newPhotos);
+      } else {
+        setPhotosList((prevPhotos) => [...prevPhotos, ...newPhotos]);
+      }
     } catch (error) {
       setError(error);
     } finally {

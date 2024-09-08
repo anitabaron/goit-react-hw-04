@@ -4,7 +4,7 @@ const accessKey = "aMCg-Pgc70Fh4ZPhdk65VnjUyKpVWhniDOpL6tT17es";
 axios.defaults.baseURL = "https://api.unsplash.com";
 
 const fetchPhotos = async (query = "", page = 1) => {
-  const perPage = 30;
+  const perPage = 9;
 
   const url = query
     ? `/search/photos/?client_id=${accessKey}&query=${query}&page=${page}&per_page=${perPage}`

@@ -7,28 +7,55 @@ import PhotoModal from "./components/PhotoModal";
 import PhotosGallery from "./components/PhotosGallery";
 import SearchBar from "./components/SearchBar";
 import { useGetPhotos } from "./hooks/useGetPhotos";
-import ToggleModal from "./components/ToggleModal";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function App() {
   const { isLoading, error, photosList, getPhotos } = useGetPhotos();
   const [keyWord, setKeyWord] = useState("");
-  const [photos, setPhotos] = useState([]);
+  const [page, setPage] = useState(1);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (keyWord) {
-      getPhotos(keyWord);
+      getPhotos(keyWord, page);
     } else {
-      getPhotos();
+      getPhotos("", page);
     }
-  }, [keyWord]);
+  }, [keyWord, page]);
 
   const handleSearchSubmit = (query) => {
+    setPage(1);
     console.log("Search query:", query);
-    setKeyWord(query);
-    // dalsze kroki z API ??
+    setKeyWord(query, 1);
   };
 
-  const keyWordToSearch = keyWord.toLowerCase();
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+    const scrollPosition = window.scrollY; // nie działa to scrollowanie, jest niestety rerender komponentu
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPosition, behavior: "smooth" });
+    }, 0);
+  };
+
+  //---modal
+
+  const openModal = (photo) => {
+    setSelectedPhoto(photo);
+    setIsOpen(true);
+  };
+
+  function afterOpenModal() {
+    // Działania po otwarciu modala
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+    setSelectedPhoto(null);
+  }
+  //---
 
   if (isLoading) {
     return <Loader />;
@@ -41,12 +68,17 @@ function App() {
   return (
     <>
       <SearchBar onSubmit={handleSearchSubmit} />
-      <PhotosGallery photos={photosList} />
-      <Loader />
-      <ErrorMessage />
-      <LoadMoreBtn />
-      <PhotoModal photos={photosList} getPhotos={getPhotos} />
-      <ToggleModal />
+      <PhotosGallery photos={photosList} openModal={openModal} />
+      <LoadMoreBtn onLoadMore={handleLoadMore} currentPage={page} />
+      <PhotoModal
+        openModal={openModal}
+        closeModal={closeModal}
+        afterOpenModal={afterOpenModal}
+        modalIsOpen={modalIsOpen}
+        photos={photosList}
+        getPhotos={getPhotos}
+        selectedPhoto={selectedPhoto}
+      />
     </>
   );
 }

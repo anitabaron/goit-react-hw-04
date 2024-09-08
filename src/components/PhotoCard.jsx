@@ -1,9 +1,12 @@
-export default function PhotoCard({ photo }) {
+export default function PhotoCard({ photo, openModal }) {
   const smallPhoto = photo.urls.small;
   const bigPhoto = photo.urls.regular;
-  const { id, alt_description } = photo;
+  const { alt_description } = photo;
+  const handleClick = () => {
+    openModal(bigPhoto);
+  };
   return (
-    <div className="photoContainer">
+    <div className="photoContainer" onClick={handleClick}>
       <img
         src={smallPhoto}
         alt={alt_description || "Photo without description"}
